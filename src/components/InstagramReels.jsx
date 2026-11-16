@@ -1,10 +1,33 @@
 
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 
 const instagramUrl = "https://www.instagram.com/bodyforgelucknow/";
 
-function InstagramIcon({ size = 20 }) {
+const reels = [
+  {
+    id: "DemKD8Shjqp",
+    url: "https://www.instagram.com/reel/DemKD8Shjqp/",
+  },
+  {
+    id: "DfmkTNkvhwi",
+    url: "https://www.instagram.com/reel/DfmkTNkvhwi/",
+  },
+  {
+    id: "De9UfpBxJEi",
+    url: "https://www.instagram.com/reel/De9UfpBxJEi/",
+  },
+  {
+    id: "DeHWwuUPiO3",
+    url: "https://www.instagram.com/reel/DeHWwuUPiO3/",
+  },
+  {
+    id: "Dd8QhdIvyOC",
+    url: "https://www.instagram.com/p/Dd8QhdIvyOC/",
+  },
+];
+
+function InstagramIcon({ size = 18 }) {
   return (
     <svg
       width={size}
@@ -30,157 +53,170 @@ function InstagramIcon({ size = 20 }) {
   );
 }
 
-const footerLinks = [
-  { name: "Home", path: "/" },
-  { name: "About Us", path: "/about" },
-  { name: "Explore Gym", path: "/explore-gym" },
-  { name: "Membership", path: "/membership" },
-  { name: "Our Team", path: "/team" },
-  { name: "Gallery", path: "/gallery" },
-  { name: "Contact Us", path: "/contact" },
-];
+export default function InstagramReels() {
+  useEffect(() => {
+    const scriptUrl = "https://www.instagram.com/embed.js";
 
-export default function Footer() {
+    const processEmbeds = () => {
+      window.instgrm?.Embeds?.process();
+    };
+
+    let script = document.querySelector(
+      `script[src="${scriptUrl}"]`
+    );
+
+    if (window.instgrm?.Embeds) {
+      processEmbeds();
+    } else {
+      if (!script) {
+        script = document.createElement("script");
+        script.src = scriptUrl;
+        script.async = true;
+        document.body.appendChild(script);
+      }
+
+      script.addEventListener("load", processEmbeds);
+
+      return () => {
+        script?.removeEventListener("load", processEmbeds);
+      };
+    }
+  }, []);
+
   return (
-    <footer className="bg-[#172522] px-6 pb-8 pt-20 text-white lg:px-12">
-      <div className="mx-auto max-w-[1440px]">
+    <section className="overflow-hidden bg-[#172522] px-5 py-24 md:px-8 md:py-32 lg:px-12">
+      <div className="mx-auto max-w-[1240px]">
 
-        {/* MAIN FOOTER */}
-        <div className="grid gap-14 border-b border-white/10 pb-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
-
-          {/* BRAND */}
+        {/* SECTION HEADER */}
+        <div className="mb-14 flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <div>
-            <Link to="/" className="inline-flex items-center gap-3">
-              <img
-                src="/body-logo.jpg"
-                alt="BODY FORGE Logo"
-                className="h-14 w-14 rounded-full object-cover"
-              />
+            <div className="mb-5 flex items-center gap-3">
+              <span className="h-[2px] w-10 bg-[#82B5A9]" />
 
-              <div>
-                <h2 className="text-xl font-black tracking-[0.12em]">
-                  BODY FORGE
-                </h2>
-
-                <p className="mt-1 text-[9px] tracking-[0.35em] text-[#82B5A9]">
-                  BUILD YOUR LEGACY
-                </p>
-              </div>
-            </Link>
-
-            <p className="mt-7 max-w-xs text-sm leading-7 text-white/50">
-              More than a gym. A community built on strength,
-              discipline and consistency. Start building a stronger
-              version of yourself with BODY FORGE.
-            </p>
-
-            <a
-              href={instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Follow BODY FORGE on Instagram"
-              className="mt-7 inline-flex h-11 w-11 items-center justify-center border border-white/20 text-[#82B5A9] transition hover:border-[#82B5A9] hover:bg-[#4D867F] hover:text-white"
-            >
-              <InstagramIcon size={20} />
-            </a>
-          </div>
-
-          {/* QUICK LINKS */}
-          <div>
-            <h3 className="mb-7 text-xs font-bold uppercase tracking-[0.25em] text-[#82B5A9]">
-              Explore
-            </h3>
-
-            <ul className="space-y-4">
-              {footerLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    to={link.path}
-                    className="text-sm text-white/55 transition hover:pl-1 hover:text-white"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* CONTACT */}
-          <div>
-            <h3 className="mb-7 text-xs font-bold uppercase tracking-[0.25em] text-[#82B5A9]">
-              Get In Touch
-            </h3>
-
-            <div className="space-y-5 text-sm text-white/55">
-              <div>
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-white/35">
-                  Phone
-                </p>
-                <p>Add your phone number</p>
-              </div>
-
-              <div>
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-white/35">
-                  Email
-                </p>
-                <p>Add your email address</p>
-              </div>
-
-              <div>
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-white/35">
-                  Location
-                </p>
-                <p>Add your gym address</p>
-              </div>
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#82B5A9]">
+                Follow The Movement
+              </p>
             </div>
-          </div>
 
-          {/* INSTAGRAM CTA */}
-          <div>
-            <h3 className="mb-7 text-xs font-bold uppercase tracking-[0.25em] text-[#82B5A9]">
-              Join The Movement
-            </h3>
+            <h2 className="text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl md:text-7xl">
+              Inside
+              <br />
+              <span className="text-[#82B5A9]">
+                BODY FORGE.
+              </span>
+            </h2>
 
-            <p className="text-sm leading-7 text-white/50">
-              Follow our fitness journey, discover our community
-              and stay connected with BODY FORGE.
+            <p className="mt-6 max-w-lg text-sm leading-7 text-white/55 md:text-base">
+              Real workouts. Real people. Real progress.
+              Experience the BODY FORGE community through our
+              latest Instagram moments.
             </p>
-
-            <a
-              href={instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-7 inline-flex items-center gap-3 border border-[#82B5A9]/50 px-5 py-4 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-[#4D867F] hover:border-[#4D867F]"
-            >
-              Follow on Instagram
-              <ArrowUpRight size={17} />
-            </a>
           </div>
 
+          <a
+            href={instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Follow BODY FORGE on Instagram"
+            className="inline-flex items-center gap-3 self-start bg-[#4D867F] px-6 py-4 text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:bg-white hover:text-[#172522]"
+          >
+            <InstagramIcon size={18} />
+            Follow Us
+            <ArrowUpRight size={17} />
+          </a>
         </div>
 
-        {/* BOTTOM FOOTER */}
-        <div className="flex flex-col items-center justify-between gap-5 pt-8 text-center sm:flex-row sm:text-left">
-          <p className="text-xs text-white/40">
-            © {new Date().getFullYear()} BODY FORGE. All Rights Reserved.
-          </p>
+        {/* INSTAGRAM CAROUSEL / DESKTOP GRID */}
+        <div
+          className="
+            -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto
+            px-5 pb-5
+            [scrollbar-width:none]
+            [&::-webkit-scrollbar]:hidden
 
-          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#82B5A9]">
-            FORGE YOUR BODY. BUILD YOUR LEGACY.
+            sm:mx-0 sm:grid sm:grid-cols-4 sm:items-start
+            sm:gap-x-7 sm:gap-y-10 sm:overflow-visible
+            sm:px-0 sm:pb-0
+
+            lg:grid-cols-6
+          "
+        >
+          {reels.map((reel, index) => (
+            <div
+              key={reel.id}
+              className={`
+                w-[88%] min-w-[88%] shrink-0 snap-center
+                overflow-hidden rounded-sm bg-white p-2 shadow-lg
+
+                sm:w-full sm:min-w-0 sm:shrink
+                sm:transition-all sm:duration-500
+                sm:hover:-translate-y-1 sm:hover:shadow-2xl
+
+                sm:col-span-2
+                ${
+                  index === 4
+                    ? "sm:col-start-2 lg:col-start-4"
+                    : ""
+                }
+                ${
+                  index === 3
+                    ? "lg:col-start-2"
+                    : ""
+                }
+              `}
+            >
+              <blockquote
+                className="instagram-media"
+                data-instgrm-permalink={reel.url}
+                data-instgrm-version="14"
+                style={{
+                  background: "#fff",
+                  border: 0,
+                  margin: 0,
+                  padding: 0,
+                  width: "100%",
+                  minWidth: 0,
+                }}
+              >
+                <a
+                  href={reel.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View this post on Instagram
+                </a>
+              </blockquote>
+            </div>
+          ))}
+        </div>
+
+        {/* MOBILE SWIPE INDICATOR */}
+        <div className="mt-6 flex items-center justify-center gap-3 sm:hidden">
+          <span className="h-px w-8 bg-[#82B5A9]/40" />
+          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/45">
+            Swipe To Explore
+          </p>
+          <span className="h-px w-8 bg-[#82B5A9]/40" />
+        </div>
+
+        {/* BOTTOM LINE */}
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 sm:flex-row">
+          <p className="text-xs uppercase tracking-[0.2em] text-white/45">
+            Strength / Discipline / Community
           </p>
 
           <a
             href={instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-xs text-white/50 transition hover:text-[#82B5A9]"
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#82B5A9] transition hover:text-white"
           >
-            Instagram
-            <ArrowUpRight size={14} />
+            Explore Instagram
+            <ArrowUpRight size={16} />
           </a>
         </div>
 
       </div>
-    </footer>
+    </section>
   );
 }
